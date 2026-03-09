@@ -13,7 +13,7 @@ docker compose up -d --build
 Akses service:
 - App logger: `http://localhost:4000`
 - Loki: `http://localhost:3100`
-- Grafana: `http://localhost:3000`
+- Grafana: `http://localhost:3001`
 
 Stop semua service:
 
