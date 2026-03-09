@@ -110,8 +110,7 @@ if (ENABLE_LEGACY_LOG_ROUTES) {
     res.status(202).json({ message: "logged" });
   });
 }
-
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Logging service running on port ${PORT}`);
   if (ENABLE_UPSTREAM_PROXY) {
     console.log(`Proxy mode enabled for /api to ${UPSTREAM_URL}`);
