@@ -1,0 +1,17 @@
+server:
+  http_listen_port: 9080
+
+positions:
+  filename: /var/lib/promtail/positions.yaml
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push
+
+scrape_configs:
+  - job_name: express_logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: express
+          __path__: /logs/*.log
