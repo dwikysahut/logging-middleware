@@ -2,6 +2,25 @@
 
 Service ini dipakai sebagai **log collector**. Backend (misalnya .NET) mengirim data request/response ke endpoint log.
 
+## Run Full Docker (tanpa install Node di VPS)
+
+Jalankan semua service (app + loki + promtail + grafana):
+
+```bash
+docker compose up -d --build
+```
+
+Akses service:
+- App logger: `http://localhost:4000`
+- Loki: `http://localhost:3100`
+- Grafana: `http://localhost:3000`
+
+Stop semua service:
+
+```bash
+docker compose down
+```
+
 ## Run
 
 ```bash

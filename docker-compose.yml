@@ -1,4 +1,18 @@
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      PORT: 4000
+      ENABLE_UPSTREAM_PROXY: "false"
+      ENABLE_LEGACY_LOG_ROUTES: "false"
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+
   loki:
     image: grafana/loki:2.9.0
     ports:
@@ -8,6 +22,9 @@ services:
 
   promtail:
     image: grafana/promtail:2.9.0
+    depends_on:
+      - app
+      - loki
     volumes:
       - ./logs:/logs
       - ./promtail-config.yml:/etc/promtail/config.yml
