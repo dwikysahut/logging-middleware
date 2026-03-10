@@ -1,4 +1,4 @@
-# logging-middleware-moana
+# logging-middleware
 
 Service ini dipakai sebagai **log collector**. Backend (misalnya .NET) mengirim data request/response ke endpoint log.
 
