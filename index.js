@@ -11,6 +11,12 @@ const UPSTREAM_URL = process.env.UPSTREAM_URL || "http://localhost:5050";
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
+app.use((req, res, next) => {
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] ${req.method} ${req.originalUrl}`);
+  next();
+});
+
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
