@@ -147,7 +147,7 @@ function logProxyError({ req, error, duration, upstream, requestHeaders, request
 }
 
 function logIngest({ req, payload, phase }) {
-  const targetUrl = pickTargetUrl(payload);
+  const backendUrlHit = pickTargetUrl(payload);
 
   const log = {
     time: new Date().toISOString(),
@@ -155,8 +155,8 @@ function logIngest({ req, payload, phase }) {
     ip: req.ip,
     sourceEndpoint: req.originalUrl,
     sourceMethod: payload?.method || null,
-    targetUrl,
-    targetPath: extractPathFromUrl(targetUrl),
+    backendUrlHit,
+    targetPath: extractPathFromUrl(backendUrlHit),
     payload: normalizeBody(payload),
   };
 

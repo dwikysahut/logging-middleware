@@ -21,6 +21,15 @@ Stop semua service:
 docker compose down
 ```
 
+Kalau mau mulai bersih dan menghindari log dobel di Grafana setelah restart, hapus juga volume state:
+
+```bash
+docker compose down -v
+docker compose up -d --build
+```
+
+Ini akan reset data Loki dan posisi baca Promtail, jadi tampilan Grafana akan kembali sinkron dengan file log aktif.
+
 Kalau ingin Promtail membaca ulang semua isi `logs/api.log` dari awal, hapus state posisi lalu jalankan ulang:
 
 ```bash
@@ -56,14 +65,11 @@ Gunakan endpoint utama:
 Alias yang juga tersedia:
 - `POST /log`
 
-Supaya log menyimpan URL backend yang di-hit (contoh `https://devportal.co.id/login`) ke field top-level, kirim salah satu field berikut pada payload:
-- `backendUrlHit` (paling direkomendasikan)
-- `targetUrl`
-- `url`
-- `endpoint`
+Supaya log menyimpan URL backend yang di-hit (contoh `https://devportal.co.id/login`) ke field top-level, kirim field ini pada payload:
+- `backendUrlHit`
 
 Logger akan menulis:
-- `targetUrl` (URL full)
+- `backendUrlHit` (URL full)
 - `targetPath` (path saja, misal `/login`)
 - `sourceEndpoint` (endpoint logger yang menerima log, misal `/api/log`)
 
