@@ -21,6 +21,15 @@ Stop semua service:
 docker compose down
 ```
 
+Kalau ingin Promtail membaca ulang semua isi `logs/api.log` dari awal, hapus state posisi lalu jalankan ulang:
+
+```bash
+docker compose down -v
+docker compose up -d --build
+```
+
+Ini penting kalau log lama sudah pernah terbaca oleh Promtail, karena Loki hanya menampilkan data yang sudah diingest.
+
 ## Run
 
 ```bash

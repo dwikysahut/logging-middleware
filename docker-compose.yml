@@ -28,7 +28,6 @@ services:
     volumes:
       - ./logs:/logs
       - ./promtail-config.yml:/etc/promtail/config.yml
-      - promtail-positions:/var/lib/promtail
     command: -config.file=/etc/promtail/config.yml
 
   grafana:
@@ -38,4 +37,3 @@ services:
 
 volumes:
   loki-data:
-  promtail-positions:
