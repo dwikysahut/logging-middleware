@@ -56,6 +56,17 @@ Gunakan endpoint utama:
 Alias yang juga tersedia:
 - `POST /log`
 
+Supaya log menyimpan URL backend yang di-hit (contoh `https://devportal.co.id/login`) ke field top-level, kirim salah satu field berikut pada payload:
+- `backendUrlHit` (paling direkomendasikan)
+- `targetUrl`
+- `url`
+- `endpoint`
+
+Logger akan menulis:
+- `targetUrl` (URL full)
+- `targetPath` (path saja, misal `/login`)
+- `sourceEndpoint` (endpoint logger yang menerima log, misal `/api/log`)
+
 ## Contoh Payload
 
 Kirim payload seperti ini ke `/api/log`:

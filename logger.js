@@ -77,6 +77,29 @@ function normalizeBody(body) {
   return sanitizeValue(body);
 }
 
+function pickTargetUrl(payload) {
+  if (!payload || typeof payload !== "object") {
+    return null;
+  }
+
+  const candidate = payload.backendUrlHit || payload.targetUrl || payload.url || payload.endpoint || null;
+  return typeof candidate === "string" && candidate.trim() !== "" ? candidate : null;
+}
+
+function extractPathFromUrl(value) {
+  if (!value) {
+    return null;
+  }
+
+  try {
+    const parsed = new URL(value);
+    return parsed.pathname || null;
+  } catch {
+    const [pathOnly] = value.split("?");
+    return pathOnly || null;
+  }
+}
+
 function logProxyResponse({
   req,
   status,
@@ -124,10 +147,16 @@ function logProxyError({ req, error, duration, upstream, requestHeaders, request
 }
 
 function logIngest({ req, payload, phase }) {
+  const targetUrl = pickTargetUrl(payload);
+
   const log = {
     time: new Date().toISOString(),
     phase,
     ip: req.ip,
+    sourceEndpoint: req.originalUrl,
+    sourceMethod: payload?.method || null,
+    targetUrl,
+    targetPath: extractPathFromUrl(targetUrl),
     payload: normalizeBody(payload),
   };
 
