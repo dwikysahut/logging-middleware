@@ -8,6 +8,12 @@ const TRUNCATED = "[truncated]";
 const MAX_LOG_STRING_LENGTH = 4000;
 const IMAGE_KEY_PATTERN = /(image|img|photo|picture|avatar|file|blob|base64|fingerprint)/i;
 
+function formatReadableTimestamp(date = new Date()) {
+  const pad = (value, length = 2) => String(value).padStart(length, "0");
+
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}.${pad(date.getMilliseconds(), 3)} UTC`;
+}
+
 function writeLog(entry) {
   fs.appendFileSync(logFile, JSON.stringify(entry) + "\n");
 }
@@ -111,7 +117,7 @@ function logProxyResponse({
   responseBody,
 }) {
   const log = {
-    time: new Date().toISOString(),
+    timestamp: formatReadableTimestamp(),
     method: req.method,
     path: req.originalUrl,
     query: req.query,
@@ -130,7 +136,7 @@ function logProxyResponse({
 
 function logProxyError({ req, error, duration, upstream, requestHeaders, requestBody }) {
   const log = {
-    time: new Date().toISOString(),
+    timestamp: formatReadableTimestamp(),
     method: req.method,
     path: req.originalUrl,
     query: req.query,
@@ -150,7 +156,7 @@ function logIngest({ req, payload, phase }) {
   const backendUrlHit = pickTargetUrl(payload);
 
   const log = {
-    time: new Date().toISOString(),
+    timestamp: formatReadableTimestamp(),
     phase,
     ip: req.ip,
     sourceEndpoint: req.originalUrl,
